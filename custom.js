@@ -1,27 +1,20 @@
 $(document).ready(function () { //jQeury to detect state of readiness to safely manipulate page
-    
-  let pickup = document.getElementById("calendar_4").children['element_4_datepick']; // Pickup date
+  console.log("Document loaded");
 
-  var weekday = document.getElementById("element_5"); //field to hold day of week for mach form logic
-  var swc = document.getElementById("li_38"); // sandwich selection
+  let pickup = document.getElementById("calendar_4").children['element_4_datepick']; // Pickup date
+  var swc = document.getElementById("li_57"); // sandwich selection
   var egg = document.getElementById("element_8_12"); // Egg salad option
-  var bread = document.getElementById("li_37"); // Bread selection
+  var bread = document.getElementById("li_56"); // Bread selection
+  var bread_opt = document.getElementById("li_55"); // Bread options (i.e. toasted, pressed, plain)
 
   // Hot Entree days
-  var mon = document.getElementById("element_63_1");
-  var tue = document.getElementById("element_63_10");
-  var wed = document.getElementById("element_63_4");
-  var thu = document.getElementById("element_63_5");
-  var fri = document.getElementById("element_63_6");
-
-  // Array of all days
-  var days = [mon,tue,wed,thu,fri];
+  let days = document.getElementById('li_7').querySelectorAll('input'); // all hot meal days
 
   function setDay(pickup_date){
       var dow = new Date(pickup_date).getDay(); // (0-6 sun to sat)
       for (let day of days) {
           
-          if (day == days[dow - 1]) {
+          if (day == days[dow - 1]) { // subtract 1 from day of week to get proper index
             day.disabled = false;
             day.checked = true;
           } else {
@@ -39,22 +32,38 @@ $(document).ready(function () { //jQeury to detect state of readiness to safely 
     
     }
 
-  if ($('#form_156295').length) {
+  if ($('#form_162747').length) {
+    console.log("Form loaded");
 
+    // set serving day for meal selection on form load
     setDay(pickup.value);
 
       $(document).change(function () {
-        // Update created varaibles on form change
+        //set serving day for meal selection on doc change
         setDay(pickup.value);
-        // when sandwich selection is hidden uncheck all radio buttons and hide bread options
-        if (swc.style.display == 'none') {
-          Array.from(swc.getElementsByClassName('element radio')).forEach( // change to element checkbox for checkbox
-                function (item) {
-                //if (item.checked) {item.click();} // used for checkbox option
-                item.checked = false;
+
+        // when sandwich selection is unchecked hide bread selection and sandwich options (toasted,pressed)
+        if (swc.style.display) {
+          Array.from(swc.getElementsByClassName('element radio')).forEach(
+                function (sandwich) {
+                sandwich.checked = false;
                 bread.style.display = 'none';
+                bread_opt.style.display = 'none';
                 });
-          }
+
+          // Uncheck bread selection
+          Array.from(bread.getElementsByClassName('element radio')).forEach(
+            function (bread) {
+            bread.checked = false;
+            });
+          
+          // Uncheck bread options
+          Array.from(bread_opt.getElementsByClassName('element radio')).forEach(
+            function (option) {
+            option.checked = false;
+            }); 
+
+          }   
 
   });
 }
