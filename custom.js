@@ -4,6 +4,7 @@ $(document).ready(function () { //jQeury to detect state of readiness to safely 
   let pickupDate = document.getElementById("calendar_4").children['element_4_datepick']; // Pickup date
   var sandwich_checkbox = document.getElementById("element_60_1"); // sandwich meal selection checkbox
   let protein_cup = document.getElementById('element_15_41'); // Protein cup checkbox under additional items
+  let entree_name = document.getElementById('element_100');
 
   let eggs = [
     document.getElementById("element_10_30"), // Egg salad under salad selection
@@ -65,6 +66,10 @@ $(document).ready(function () { //jQeury to detect state of readiness to safely 
   // Hot Entree days
   let days = document.getElementById('li_63').querySelectorAll('input'); // all hot meal days
 
+                                          /*                   */
+                                          /*     FUNCTIONS     */
+                                          /*                   */
+
   // Gets day of the week from passed date and sets daily meal and other input accordingly
   function setDay(pickup_date){
       var weekday = new Date(pickup_date).getDay() - 1; // subtract 1 from day of week to get proper index
@@ -72,6 +77,7 @@ $(document).ready(function () { //jQeury to detect state of readiness to safely 
           if (day === days[weekday]) { 
             day.disabled = false;
             day.click();
+            entree_name.value = day.parentElement.querySelector('.choice').innerText.split('-')[1].trim();
           } else {
             day.disabled = true;
             day.checked = false;
@@ -84,6 +90,7 @@ $(document).ready(function () { //jQeury to detect state of readiness to safely 
         eggs.forEach((egg) => {egg.disabled = true; egg.checked = false;});
       }
   }
+
   // Clears all radio or checkboxes from passed array
   function clearAll(itemArray) {
     itemArray = !Array.isArray(itemArray) ? Array.from(itemArray) : itemArray;
@@ -94,12 +101,17 @@ $(document).ready(function () { //jQeury to detect state of readiness to safely 
         itemArray.forEach((option) => option.checked = false);
     }
   }
+
   // Returns number of selected items from array/collection of inputs
   function selectedOptions(input_array){
     let selected = 0;
     Array.from(input_array).forEach( (input) => input.checked ? selected++ : '');
     return selected;
   }
+
+                                          /*                   */
+                                          /*   FUNCTIONS END   */
+                                          /*                   */
 
   // Checks that the form exists
   if ($('#form_181105').length) {
