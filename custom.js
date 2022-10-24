@@ -78,6 +78,7 @@ $(document).ready(function () { //jQeury to detect state of readiness to safely 
             day.disabled = false;
             day.click();
             entree_name.value = day.parentElement.querySelector('.choice').innerText.split('-')[1].trim();
+            entree_name.dispatchEvent(mouseOut_event);
           } else {
             day.disabled = true;
             day.checked = false;
