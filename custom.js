@@ -77,7 +77,9 @@ $(document).ready(function () { //jQeury to detect state of readiness to safely 
           if (day === days[weekday]) { 
             day.disabled = false;
             day.click();
-            entree_name.value = day.parentElement.querySelector('.choice').innerText.split('-')[1].trim();
+            //entree_name.value = day.parentElement.querySelector('.choice').innerText.split('-')[1].trim();
+            let entree_text = day.parentElement.querySelector('.choice').innerText;
+            entree_name.value = entree_text.substring(entree_text.search('-') + 1).trim();
             entree_name.dispatchEvent(mouseOut_event);
           } else {
             day.disabled = true;
