@@ -5,10 +5,21 @@ $(document).ready(function () { //jQeury to detect state of readiness to safely 
   if ($('#form_181105').length) {
     console.log("Form loaded");
 
+    let daily_meal = document.querySelector("#element_60_2");
     let pickupDate = document.getElementById("calendar_4").children['element_4_datepick']; // Pickup date
     var sandwich_checkbox = document.getElementById("element_60_1"); // sandwich meal selection checkbox
     let protein_cup = document.getElementById('element_15_41'); // Protein cup checkbox under additional items
     let entree_name = document.getElementById('element_100');
+
+    // Quantity fields for Combo Days (soup/salad/sandwich)
+    let sandwich_quantity = document.getElementById('element_110');
+    let soup_quantity = document.getElementById('element_112');
+    let salad_quantity = document.getElementById('element_111');
+    let sidesalad_quantity = document.getElementById('element_113');
+
+    // Radio checkboxes elements assigned to their corresponding variables 
+    let [sandAndSoup,sandAndSal,salAndSoup] = Array.from(document.querySelectorAll('#li_114 input')); // radio selections
+    let combo_options = Array.from(document.querySelectorAll('#li_114 input'));
 
     let wednesdayOptions = []; // Instantiate empty array that will house all "Wednesday only" inputs
     let inputLabels = Array.from(document.querySelectorAll('label.choice')); // Array with ALL input labels (choice class)
@@ -220,6 +231,21 @@ $(document).ready(function () { //jQeury to detect state of readiness to safely 
         side_salad_dressing_quantity.value = '';
         side_salad_dressing_quantity.dispatchEvent(mouseOut_event);
       }
+
+      // Ternary statements to determine which quantity fields are marked empty or 1 (depending on combo)
+      sandAndSoup.checked || salAndSoup.checked ? soup_quantity.value = '' : soup_quantity.value = '1';
+      sandAndSal.checked || sandAndSoup.checked ? sandwich_quantity.value = '' : sandwich_quantity.value = '1';
+      salAndSoup.checked ? salad_quantity.value = '' : salad_quantity.value = '1';
+      sandAndSal.checked ? sidesalad_quantity.value = '' : sidesalad_quantity.value = '1';
+      
+      // Send mouseout event to all quantity fields to update the set quantity field values
+      soup_quantity.dispatchEvent(mouseOut_event);
+      sandwich_quantity.dispatchEvent(mouseOut_event);
+      salad_quantity.dispatchEvent(mouseOut_event);
+      sidesalad_quantity.dispatchEvent(mouseOut_event);
+
+      // if daily meal is not checked then uncheck all combo options
+      daily_meal.checked ? '' : clearAll(combo_options);
 
     });
   }
